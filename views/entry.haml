@@ -1,5 +1,14 @@
 #container
-  %header{ :class => "masthead segment" }= "Aristotl, an alternative browser for Plato.stanford.edu"
-  #main{ :role => "main", :class => "content ui page grid"}
-    %article{ :class => "ui column" }= $content
+  %header{ :class => "masthead segment" }
+    %div{ :class => "container" }
+      %div{ :class => "introduction" }
+        %h1{ :class => "ui dividing header" }= $entry_title
+        %p= $entry_intro
+        %div{ :class => "ui basic labeled icon toggle overview button" }= $entry_pub
+            %i{ :class => "book icon" }
+  #main{ :role => "main", :class => "content ui page grid" }
+    %div{ :class => "sticky-wrapper" }
+      %div{ :class => "peek" }
+        %div= $entry_toc
+    %article{ :class => "ui column" }= $entry_content
   %footer
