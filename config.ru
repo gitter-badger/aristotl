@@ -1,3 +1,3 @@
 require 'rubygems'
-require './app'
-run Aristotl
+require './app.rb', __FILE__
+run Sinatra::Base
