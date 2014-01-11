@@ -40,6 +40,6 @@ Additionally, I want a way to parse the information in the SEP. There is no API,
     bundle install --path vendor
     rackup -p 4567
 
-In your browser, go to `http://localhost:4567`. SEP articles are scraped according to their slug: `http://localhost:4567/entry/[slug]`. For example, `http://plato.stanford.edu/entries/montaigne/` would be mapped to `http://localhost:4567/entries/montaigne/`
+In your browser, go to `http://localhost:4567`. SEP articles are scraped according to their slug: `http://localhost:4567/entries/[slug]`. For example, `http://plato.stanford.edu/entries/montaigne/` would be mapped to `http://localhost:4567/entries/montaigne/`
 
 I plan to implement a search feature in the future.
