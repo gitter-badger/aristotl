@@ -1,9 +1,10 @@
-set :application, 'Aristotl'
-set :repo_url, 'git@github.com/bsima/aristotl.git'
+set :application, 'aristotl'
+set :repo_url, 'git@github.com:bsima/aristotl.git'
+set :branch, 'master'
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
-# set :deploy_to, '~/aristotle.co/'
+# set :deploy_to, '/var/www/my_app'
 # set :scm, :git
 
 # set :format, :pretty
