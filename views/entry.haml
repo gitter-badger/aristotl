@@ -5,10 +5,6 @@
         %h1{ :class => "ui dividing header" }= $entry_title
         %p= $entry_intro
         %div{ :class => "ui basic labeled icon toggle overview button" }= $entry_pub
-            %i{ :class => "book icon" }
-  #main{ :role => "main", :class => "content ui page grid" }
-    %div{ :class => "sticky-wrapper" }
-      %div{ :class => "peek" }
-        %div= $entry_toc
+  #main{ :role => "main", :class => "main container" }
     %article{ :class => "ui column" }= $entry_content
   %footer

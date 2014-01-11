@@ -97,17 +97,53 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-
-
-
-
-
-
-
-
-
-
-
+body#aristotl {
+    background: #EEE; 
+}
+#aristotl .container {
+    width: auto;
+    max-width: 900px;
+    margin: auto;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+#aristotl .main.container {
+    position: relative;
+    padding-bottom: 100px;
+}
+#aristotl > .content > .page > .segment, #aristotl > .segment {
+    margin: 0px 0px 3em;
+    padding-top: 70px;
+    padding-bottom: 30px;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #DDDDDD;
+}
+#aristotl #main {
+    font-family: Vollkorn, sans-serif;
+    font-size: 1.4em;
+    line-height: 1.6em;
+}
+#aristotl p {
+    margin: 0;
+    text-indent: 2.5em;
+}
+#aristotl .peek {
+    position: absolute;
+    top: 0px;
+    left: -230px;
+    width: 180px;
+}
+#aristotl .sticky-wrapper.stuck {
+    height: 0px !important;
+    -webkit-transition: margin-left 0.3s ease-out, opacity 0.3s ease-out;
+    -moz-transition: margin-left 0.3s ease-out, opacity 0.3s ease-out;
+    -o-transition: margin-left 0.3s ease-out, opacity 0.3s ease-out;
+    -ms-transition: margin-left 0.3s ease-out, opacity 0.3s ease-out;
+    transition: margin-left 0.3s ease-out, opacity 0.3s ease-out;
+}
+#aristotl #toc {
+    padding: 0;
+}
 
 
 

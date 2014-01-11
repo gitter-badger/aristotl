@@ -2,6 +2,12 @@ require 'mechanize'
 require 'sinatra/base'
 require 'haml'
 
+
+# Var matey!
+#
+# Site variables go 'ere
+$site_title = "Aristotl"
+
 # A class is needed to make
 # Mechanize play nice with Sinatra.
 class Aristotl < Sinatra::Base
@@ -17,7 +23,7 @@ class Aristotl < Sinatra::Base
         haml :about # @TODO make an about page
     end
 
-    get '/entry/:entry' do
+    get '/entries/:entry' do
         # Load the page
         agent = Mechanize.new
         url   = "http://plato.stanford.edu/entries/" + params[:entry] + "/"
@@ -35,14 +41,14 @@ class Aristotl < Sinatra::Base
 
         # @TODO This is gonna be a bit harder. I need every `p` element before the
         #       first `hr` element.
-        $entry_intro = page.search("")
+        #$entry_intro = page.search("")
 
-        $entry_toc = page.search("ul:first-of-type")
-        
+        #$entry_toc = page.search("ul:first-of-type")
+
         # @TODO This ain't gonna be easier either. I now need all of the content
         #       after the `hr` element.
-        $content = page.search("div#aueditable")
-        
+        $entry_content = page.search("div#aueditable")
+
         # Generate the page!
         haml :entry
     end
