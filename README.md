@@ -23,16 +23,23 @@ Additionally, I want a way to parse the information in the SEP. There is no API,
 * jQuery
 * Bibliotype by @cmod
 
-## TODOs and ideas ##
+## Ideas ##
 
 * mmmm... a sane commenting system would be cool...
 * Design inspiration: Medium.com article reading styles, plus @cmod's Bibliotype library. That'd be so sexy.
+    * Instapaper.com is another great reading experience
 * JavaScript search-and-suggest box on the index page
 * Implement an auth system and save user notes? Or at least highlights?
 * ooohhh a social highlighting system like the kindle has. be sweet.
 * A night reading style is necessary.... omg flux. i need flux on this site.
 * Don't forget to add a GitHub banner in the corner! Get ppl to contribute
 * **When someone highlights a term, provide a popup for definitions, links to other SEP articles, links to Wikipedia, etc.**
+
+## TODO ##
+
+* Make a CONTRIBUTING.md
+* tighten up the code
+* Get capistrano working
 
 ## Install and Run ##
 
