@@ -105,10 +105,26 @@ nav#nav {
     margin-top: -100px;
     font-family: "Open Sans", Helvetica, sans-serif;
 }
-#aristotl #masthead {
+#aristotl #masthead,
+#aristotl #masthead a {
     float: none;
-    width: 300px;
     margin: auto;
+    text-decoration: none;
+    width: 100%;
+    padding-bottom: 0;
+}
+#aristotl #masthead a:hover {
+    background: #efefef;
+}
+#aristotl #masthead .ui.menu {
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-bottom: 0;
+}
+#aristotl #masthead .ui.menu .item {
+    width: 30%;
+    display: inline-block;
+    padding: .5rem 1.5rem;
 }
 #aristotl .sidebar .header {
     background: transparent;
@@ -116,6 +132,13 @@ nav#nav {
 #aristotl .sidebar .header .sub.header {
     font-size: .75em;
     color: rgba(1,1,1,.5);
+}
+#aristotl .sidebar .header .sub.header a {
+    color: rgba(1,1,1,.5);
+    text-decoration: none;
+}
+#aristotl .sidebar .header .sub.header a:hover {
+    color: rgba(1,1,1,1);
 }
 #aristotl #toc ul {
     padding: 0 0 0 1em;
@@ -126,6 +149,9 @@ nav#nav {
     font-size: .875rem;
     text-decoration: none;
     color: rgba(30,30,30.7);
+    line-height: 1.4em;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
 }
 #aristotl #toc .header.item .angle.icon {
     float: none;
@@ -142,6 +168,7 @@ nav#nav {
     margin: auto;
     padding-left: 50px;
     padding-right: 50px;
+    margin-bottom: 100px;
 }
 #aristotl .main.container {
     position: relative;

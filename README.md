@@ -40,6 +40,7 @@ Additionally, I want a way to parse the information in the SEP. There is no API,
 * Make a CONTRIBUTING.md
 * tighten up the code
 * Get capistrano working
+* Write actual, modern JavaScript and not just procedural crap
 
 ## Install and Run ##
 

@@ -24,6 +24,8 @@ class Aristotl < Sinatra::Base
         haml :about # @TODO make an about page
     end
 
+    
+
     get '/entries/:entry' do
         # Load the page
         agent = Mechanize.new
