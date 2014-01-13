@@ -35,6 +35,8 @@ GEM
     rack-protection (1.5.1)
       rack
     rake (10.1.1)
+    sanitize (2.0.6)
+      nokogiri (>= 1.4.4)
     sinatra (1.4.4)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -59,4 +61,5 @@ DEPENDENCIES
   capistrano (~> 3.0.1)
   haml
   mechanize
+  sanitize
   sinatra

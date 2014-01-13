@@ -98,11 +98,47 @@ textarea {
    ========================================================================== */
 
 body#aristotl {
-    background: #EEE; 
+    background: #EEE;
+    margin-top: 100px;
+}
+nav#nav {
+    margin-top: -100px;
+    font-family: "Open Sans", Helvetica, sans-serif;
+}
+#aristotl #masthead {
+    float: none;
+    width: 300px;
+    margin: auto;
+}
+#aristotl .sidebar .header {
+    background: transparent;
+}
+#aristotl .sidebar .header .sub.header {
+    font-size: .75em;
+    color: rgba(1,1,1,.5);
+}
+#aristotl #toc ul {
+    padding: 0 0 0 1em;
+    font-family: "Open Sans", Helvetica, sans-serif;
+}
+#aristotl #toc ul li.item,
+#aristotl #toc ul li.item a {
+    font-size: .875rem;
+    text-decoration: none;
+    color: rgba(30,30,30.7);
+}
+#aristotl #toc .header.item .angle.icon {
+    float: none;
+    margin: 0;
+}
+#aristotl #sidebar .ui.basic.accordion.menu {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background: transparent;
 }
 #aristotl .container {
     width: auto;
-    max-width: 900px;
+    max-width: 800px;
     margin: auto;
     padding-left: 50px;
     padding-right: 50px;
@@ -141,9 +177,7 @@ body#aristotl {
     -ms-transition: margin-left 0.3s ease-out, opacity 0.3s ease-out;
     transition: margin-left 0.3s ease-out, opacity 0.3s ease-out;
 }
-#aristotl #toc {
-    padding: 0;
-}
+
 
 
 
