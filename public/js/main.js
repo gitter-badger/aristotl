@@ -20,11 +20,7 @@ $(document).ready(function() {
     ;
 
     $('.ui.accordion')
-        .accordion()
-    ;
-
-    $('.ui.accordion .title')
-        .accordion('toggle')
+        .accordion('open')
     ;
 
     $('#toc')
