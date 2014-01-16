@@ -21,7 +21,6 @@ Additionally, I want a way to parse the information in the SEP. There is no API,
 
 * Semantic-UI
 * jQuery
-* Bibliotype by @cmod
 
 ## Ideas ##
 
