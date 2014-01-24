@@ -11,6 +11,10 @@
       %a{ :class => "item", :href => "/" } About
       %a{ :class => "item disabled" } Random
   %hr{ :class => "ui divider" }
+  %div{ :class => "search ui fluid icon input" }
+    %input{ :type => "text", :placeholder => "Search Aristotl..." }
+    <i class="search icon"></i>
+  %hr{ :class => "ui divider" }
   %h2{ :class => "ui header item" }
     = $entry_title
     %div{ :class => "sub header" }
@@ -19,7 +23,7 @@
   %div{ :class => "ui menu basic accordion"}
     %div{ :id => "toc", :class => "horizontally fitted item" }
       %div{ :class => "header title" } <i class="dropdown icon"></i> Table of Contents
-%nav{ :id => "nav", :class => "ui menu fixed" }
+%nav{ :id => "nav", :class => "ui secondary menu fixed" }
   %a{ :class => "item launch" } <i class="icon list layout"></i> Menu
   %div{ :class => "menu right" }
     %a{ :class => "item", :href => "https://github.com/bsima/aristotl" } <i class="icon github"></i>

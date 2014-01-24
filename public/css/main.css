@@ -98,12 +98,15 @@ textarea {
    ========================================================================== */
 
 body#aristotl {
-    background: #EEE;
-    margin-top: 100px;
+    background: #efefef;
+    padding-top: 100px;
 }
 nav#nav {
     margin-top: -100px;
     font-family: "Open Sans", Helvetica, sans-serif;
+}
+#aristotl #sidebar hr {
+    margin: 0;
 }
 #aristotl #masthead,
 #aristotl #masthead a {
@@ -112,9 +115,6 @@ nav#nav {
     text-decoration: none;
     width: 100%;
     padding-bottom: 0;
-}
-#aristotl #masthead a:hover {
-    background: #efefef;
 }
 #aristotl #masthead .ui.menu {
     margin-bottom: 0;
@@ -125,6 +125,9 @@ nav#nav {
     width: 30%;
     display: inline-block;
     padding: .5rem 1.5rem;
+}
+#aristotl .search input {
+    border: none;
 }
 #aristotl .sidebar .header {
     background: transparent;

@@ -1,6 +1,7 @@
 require 'mechanize'
 require 'sinatra/base'
 require 'haml'
+require 'redcarpet'
 
 
 # Var matey!
@@ -65,5 +66,9 @@ class Aristotl < Sinatra::Base
         #
         # I have no idea how I'm gonna do this, but whatevs.
     end
+
+    # If everything checks out okay, serve the application using
+    # Sinatra's build-in server.
+    run! if app_file == $0
 end
 
