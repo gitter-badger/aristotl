@@ -1,4 +1,5 @@
 %menu{ :id => "sidebar", :class => "ui wide vertical styled sidebar borderless menu" }
+  <i id="close-menu" class="close icon link icon launch"></i>
   %div{ :class => "item", :id => "masthead" }
     %a{ :class => 'ui header', :href => "/" }
       <i class="circular book icon"></i>
@@ -23,10 +24,9 @@
   %div{ :class => "ui menu basic accordion"}
     %div{ :id => "toc", :class => "horizontally fitted item" }
       %div{ :class => "header title" } <i class="dropdown icon"></i> Table of Contents
-%nav{ :id => "nav", :class => "ui secondary menu fixed" }
-  %a{ :class => "item launch" } <i class="icon list layout"></i> Menu
-  %div{ :class => "menu right" }
-    %a{ :class => "item", :href => "https://github.com/bsima/aristotl" } <i class="icon github"></i>
+%a{ :id => "open-menu", :class => "ui launch inverted tiny button" }
+  <i class="icon list layout"></i>
+  %span{ :class => "text", :style => "display:none" } Menu
 #container
   -#%header{ :class => "masthead segment" }
     %div{ :class => "container" }

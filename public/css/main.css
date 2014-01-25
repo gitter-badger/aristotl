@@ -101,9 +101,28 @@ body#aristotl {
     background: #efefef;
     padding-top: 100px;
 }
-nav#nav {
-    margin-top: -100px;
+#aristotl #open-menu {
+    position: fixed;
+    left: 5px;
+    top: 5px;
+    width: 40px;
     font-family: "Open Sans", Helvetica, sans-serif;
+    z-index: 997;
+}
+#aristotl #open-menu > i.icon {
+    float: left;
+}
+#aristotl #close-menu {
+    font-size: 15px;
+    top: 5px;
+    right: 5px;
+    position: absolute;
+    color: #999;
+    z-index: 999;
+}
+
+#aristotl #sidebar {
+    z-index: 998;
 }
 #aristotl #sidebar hr {
     margin: 0;
@@ -111,7 +130,7 @@ nav#nav {
 #aristotl #masthead,
 #aristotl #masthead a {
     float: none;
-    margin: auto;
+    margin: 10px auto inherit;
     text-decoration: none;
     width: 100%;
     padding-bottom: 0;
@@ -151,7 +170,7 @@ nav#nav {
 #aristotl #toc ul li.item a {
     font-size: .875rem;
     text-decoration: none;
-    color: rgba(30,30,30.7);
+    color: rgba(30,30,30,.7);
     line-height: 1.4em;
     padding-top: .25rem;
     padding-bottom: .25rem;
