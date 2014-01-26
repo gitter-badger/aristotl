@@ -4,26 +4,19 @@ $:.unshift(File.dirname(__FILE__))
 
 task :default => [:run]
 
-desc "Run app locally"
+# # Tests to run #
+#
+# * Test whether a few SEP articles return HTTP code 200.
+# * Test 404 handling.
+# * Future: Test API
+
+# Temporary stuff to get travis CI working
+desc "Temp"
 task :run => "Gemfile.lock" do
-    require 'app'
-    run Aristotl
-end
-
-# need to touch Gemfile.lock as bundle doesn't touch
-# the file if there is no change
-file "Gemfile.lock" => "Gemfile" do
-    sh "bundle && touch Gemfile.lock"
-end
-
-namespace :vmc do
-    desc "Update cloud foundry deployment"
-    task :update => "Gemfile.lock" do
-        sh "vmc update #{APP}"
-    end
-
-    desc "Get application status"
-    task :status do
-        sh "vmc stats #{APP}"
+    # need to touch Gemfile.lock as bundle doesn't touch
+    # the file if there is no change
+    file "Gemfile.lock" => "Gemfile" do
+        sh "bundle && touch Gemfile.lock"
     end
 end
+
