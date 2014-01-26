@@ -7,7 +7,7 @@ task :default => [:run]
 desc "Run app locally"
 task :run => "Gemfile.lock" do
     require 'app'
-    Sinatra::Application.run!
+    run Aristotl
 end
 
 # need to touch Gemfile.lock as bundle doesn't touch
