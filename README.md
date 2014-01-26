@@ -1,4 +1,4 @@
-# Aristotl #
+# Aristotl [![Build Status](https://travis-ci.org/bsima/aristotl.png?branch=master)](https://travis-ci.org/bsima/aristotl) #
 
 An alternative viewer for the [Stanford Encyclopedia of Philosophy](http://plato.stanford.edu).
 
