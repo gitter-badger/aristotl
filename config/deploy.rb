@@ -1,6 +1,5 @@
 set :application, 'aristotl'
 set :repo_url, 'git@github.com:bsima/aristotl.git'
-set :branch, 'master'
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
