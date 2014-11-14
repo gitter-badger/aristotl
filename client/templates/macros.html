@@ -1,17 +1,17 @@
-{% macro render_article(article) %}
+{% macro render_article(content) %}
 <div class="row">
     <div class="col-md-2 text-right metadata">
         <ul class="list-unstyled">
             <li>
-              {{ article.datetime | dateformat ("%d/%m/%y")} }
+              {{ content["pubdate"] }}
             </li>
         </ul>
     </div>
     <div class="col-md-10">
         <h1>
-            {{ article.title }}
+            {{ content["title"] }}
         </h1>
-        {{ article.content | safe }}
+        {{ content["text"] | safe }}
     </div>
 </div>
 {% endmacro %}

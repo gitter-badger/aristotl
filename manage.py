@@ -1,7 +1,7 @@
 import os
 from flask.ext.script import Manager
 
-from app import app
+from client import app
 
 manager = Manager(app)
 
@@ -11,8 +11,8 @@ def run():
     app.run(host='0.0.0.0', port=port)
 
 
-from app.models import Article
-from app.database import session
+from client.models import Article
+from client.database import session
 
 @manager.command
 def seed():

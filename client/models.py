@@ -34,8 +34,12 @@ class Article():
         """
         Download and return the HTML page content.
         """
+        custom_headers = {
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36"
+        }
         try:
-            page     = requests.get(url)
+
+            page     = requests.get(url,headers=custom_headers)
             response = page.status_code
         except:
             print('Bad connection.')
@@ -58,7 +62,7 @@ class SEP(Article):
     xpaths   = {
         "title"     : '//*[@id="aueditable"]/h1/text()',
         "pubdate"   : '//*[@id="pubinfo"]/*/text()',
-        "lede"      : '//*[@id="preamble"]/p/text()',
+        "lede"      : '//*[@id="preamble"]/p',
         "toc"       : '//*[@id="toc"]/ul/li/a',
         "text"      : '//*[@id="main-text"]',
         "biblio"    : '//*[@id="bibliography"]',
@@ -86,7 +90,7 @@ class SEP(Article):
         the form {<description> : <content>}.
         """
         d = {}
-        # TODO: convert to list comprehension
+        # TODO: convert to list comprehension?
         for k in self.xpaths:
             y = []
             x = self.tree.xpath(self.xpaths[k])

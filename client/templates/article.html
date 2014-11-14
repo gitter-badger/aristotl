@@ -2,8 +2,27 @@
 {% extends "base.html" %}
 {% block content %}
 
-{% for article in articles %}
-{{ macros.render_article(article) }}
-{% endfor %}
+<h1>{{ article["title"][0] }}</h1>
+
+<section id="lede">
+  {{ article["lede"][0] | safe }}
+</section>
+
+<ul id="toc">
+  <h2> Table of Contents </h2>
+  {% for li in article["toc"] %}
+    <li>{{ li | safe }}</li>
+  {% endfor %}
+</ul>
+
+<article>
+  {{ article["text"][0] | safe }}
+</article>
+
+<footer>
+  <div id="biblio">
+    {{ article["biblio"][0] | safe }}
+  </div>
+</footer>
 
 {% endblock %}
