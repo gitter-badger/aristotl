@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="alert alert-dismissable alert-info">
+  Note: Aristotl.co is a work in progress. Links may not work, images may not render, and things may be mis-formatted. Go to <a href="//plato.stanford.edu">the real SEP</a> for a better reading experience.
+</div>
+<div id="home">
+    <div class="input-group">
+      <input id="route" type="text" class="form-control">
+      <span class="input-group-btn">
+        <button id="go" class="btn btn-default">Go!</button>
+      </span>
+    </div><!-- /input-group -->
+
+  <img id="calvin" src="{{ url_for('static', filename='img/calvin.jpeg') }}">
+
+  <script type="text/javascript">
+$(document).ready(function(){
+
+    function go(){
+        var route = $("#route").val();
+        window.location.replace("/sep/"+route);
+    };
+
+    $('#go').click(function(){go()});
+    $('#route').keypress(function(e){
+        if (e.which == 13 ){ go() }
+    });
+    $(window).keypress(function(e){
+        if (e.which != 13 ){ $('#route').focus() }
+    });
+});
+</script>
+</div>
+{% endblock %}
