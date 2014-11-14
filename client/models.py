@@ -81,6 +81,7 @@ class SEP(Article):
         self.response = self.fetch(self.url)
         self.tree     = etree.HTML(self.response.text)
         self.content  = self.parse()
+        self.content['url'] = self.url
         app.logger.info(slug + " instance created.")
 
 

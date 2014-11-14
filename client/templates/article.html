@@ -1,8 +1,15 @@
-{% import "macros.html" as macros %}
 {% extends "base.html" %}
 {% block content %}
 
+<div class="alert alert-dismissable alert-info">
+  Note: Aristotl.co is a work in progress. Links may not work, images may not render, and things may be mis-formatted. Go to <a href="//plato.stanford.edu">the real SEP</a> for a better reading experience.
+</div>
+
+
 <h1>{{ article["title"][0] }}</h1>
+
+<p id="pubdate"><em>{{ article["pubdate"][0] | safe }}</em></p>
+<p class="linkout">See original article on the <a href="{{article['url']}}">Stanford Encyclopedia of Philosophy</a></p>
 
 <section id="lede">
   {{ article["lede"][0] | safe }}
@@ -22,6 +29,18 @@
 <footer>
   <div id="biblio">
     {{ article["biblio"][0] | safe }}
+  </div>
+
+  <div id="resources">
+    {{ article["resources"][0] | safe }}
+  </div>
+
+  <div id="related">
+    {{ article["related"][0] | safe }}
+  </div>
+
+  <div id="thanks">
+    {{ article["thanks"][0] | safe }}
   </div>
 </footer>
 
