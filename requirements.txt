@@ -16,3 +16,4 @@ lxml==3.4.0
 mistune==0.4.1
 requests==2.4.3
 wsgiref==0.1.2
+gunicorn==19.1.1
