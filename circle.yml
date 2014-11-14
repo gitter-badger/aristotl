@@ -1,11 +1,10 @@
-language: python
+# https://circleci.com/gh/bsima/aristotl
+machine:
+  timezone:
+    America/New_York
+  python:
+    version: 3.4
 
-python:
-    - "2.6"
-    - "2.7"
-    - "3.3"
-
-install:
+dependencies:
+  pre:
     - pip install -r requirements.txt
-
-#script: python tests.py
