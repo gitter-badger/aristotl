@@ -2,6 +2,8 @@
 
 An alternative viewer for the [Stanford Encyclopedia of Philosophy](http://plato.stanford.edu).
 
+**Currently being re-written to Python**
+
 ## Rationale ##
 
 The SEP is awesome. High-quality philosophy articles worthy of inclusion in any philosophy paper's bibliography. However, navigating and reading the SEP online is a PITA. And the lack of mobile support frustrates me.
@@ -12,15 +14,7 @@ Additionally, I want a way to parse the information in the SEP. There is no API,
 
 ## Dependencies ##
 
-* mechanize (though I might be able to switch to nokogiri... I'm not sure)
-* sinatra
-* haml
-* rdiscount (I need a couple "about" pages and I might as well write them in Markdown.)
-
-## Libraries I'm Using ##
-
-* Semantic-UI
-* jQuery
+* python
 
 ## Ideas ##
 
