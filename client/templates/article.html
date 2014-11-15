@@ -12,7 +12,9 @@
 <p class="linkout">See original article on the <a href="{{article['url']}}">Stanford Encyclopedia of Philosophy</a></p>
 
 <section id="lede">
-  {{ article["lede"][0] | safe }}
+  {% for p in article["lede"] %}
+  {{ p | safe }}
+  {% endfor %}
 </section>
 
 <ul id="toc">

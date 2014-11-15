@@ -5,7 +5,7 @@ from lxml import etree
 from sqlalchemy import Column, Integer, String, Sequence, Text, DateTime
 
 from client import app
-from database import Base, engine, session
+#from database import Base, engine, session
 
 #class Article(Base):
 class Article():
@@ -97,7 +97,7 @@ class SEP(Article):
             x = self.tree.xpath(self.xpaths[k])
             for i in x:
                 if type(i) == etree._Element:
-                   y.append(etree.tostring(i))
+                   y.append(etree.tostring(i,encoding="Unicode"))
                 else:
                     y.append(i)
             d[k] = y

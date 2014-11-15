@@ -8,7 +8,7 @@ config_path = os.environ.get("CONFIG_PATH", "client.config.DevelopmentConfig")
 app.config.from_object(config_path)
 
 from client.controllers import entries
-import filters
+#import filters
 
 app.register_blueprint(entries.blueprint)
 

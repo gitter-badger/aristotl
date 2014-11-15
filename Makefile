@@ -1,16 +1,27 @@
 .PHONY: virtualenv
 
-ENV = env
+
+#if [ $(python3) ] then
+#	WHICH = $(which python3)
+#elif [ $(python) ] then
+#	WHICH = $(which python)
+#fi
+
+
+VENV = venv
 PYTEST_OPTIONS = -vv --exitfirst -n 8
 export PYTHONPATH := $(PYTHONPATH):.
 
 # Run and serve the client Python app
-client: $(ENV)
-	. $(ENV)/bin/activate
+client: $(VENV)
+	. $(VENV)/bin/activate
 
 # Run the python shell
 shell:
 	python shell.py
 
-test: $(ENV)
-	. $(ENV)/bin/activate; py.test $(PYTEST_OPTIONS) tests/
+test: $(VENV)
+	. $(VENV)/bin/activate; py.test $(PYTEST_OPTIONS) tests/
+
+env:
+	virtualenv -p $(WHICH) $(VENV)
