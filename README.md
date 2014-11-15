@@ -1,8 +1,8 @@
-# Aristotl [![Build Status](https://travis-ci.org/bsima/aristotl.png?branch=master)](https://travis-ci.org/bsima/aristotl) #
+# Aristotl [![Circle CI](https://circleci.com/gh/bsima/aristotl.png?style=badge)](https://circleci.com/gh/bsima/aristotl)
 
 An alternative viewer for the [Stanford Encyclopedia of Philosophy](http://plato.stanford.edu).
 
-**Currently being re-written to Python**
+**Currently being re-written to Python. Or maybe Clojure. Not sure yet...**
 
 ## Rationale ##
 

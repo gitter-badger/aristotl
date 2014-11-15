@@ -1,0 +1,40 @@
+* Stuff that needs done
+
+but who knows if I'll do them...
+
+From here on, I have a scraper that works. However, if I want a /really/ useful
+thin, I should properly destructure the HTML for processing.
+
+** devops
+  The deploy process is actually pretty good right now. For the Python client,
+  that is. It runs on a single (free) heroku dyno. Adding a server might be
+  tricky, and I'll probably need a second dyno. FYI.
+
+** client
+  I need a frontend design. `bower init` and such.
+
+- make the text bigger
+- make the text content only 52-ems wide max
+- ?? add some basic data analytics ??
+
+  CSS stuff is what I should mostly focus on, as it will survive a rewrite to
+  Clojure. Unless I use Garden, of course...
+
+** server
+*** TODO spider
+  I need to be able to get statistics for /all/ of the pages on the SEP. So
+  should I write a crawler? I think so.
+
+  I could either use Clojure or OCaml for the actual crawling of pages, and
+  have it run in the background on the server, as a service. That would be nice.
+  It would also allow me to offload the data analytics stuff from Python, making
+  the Python code purely client-oriented; i.e., Python code would only be
+  responsible for displaying the content scraped from the SEP, and statistics
+  supplied by the database already populated by the crawler service.
+
+  HEYO! The SEP has a /[[http://plato.stanford.edu/contents.html][table of contents]]/! Which means I can write a very specific
+  crawler that uses that page as a starting point only, and doesn't go outside
+  the plato.stanford.edu domain.
+
+  Okay, so I think this should be done in Clojure... Yes, Clojure. Then
+  eventually I could port the client over to ClojureScript as well.
