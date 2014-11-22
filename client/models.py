@@ -7,24 +7,9 @@ from sqlalchemy import Column, Integer, String, Sequence, Text, DateTime
 from client import app
 #from database import Base, engine, session
 
-#class Article(Base):
-class Article():
+class Fetcher():
     """
-    Retrieves the article from the website.
-    TODO: Exposes methods for storing article in the database.
-    """
-    #__tablename__ = "articles"
-
-    # Create instance with Article(slug) => Article("newton")
-    # this class will check for the article in the db and render it
-    # if it exists, otherwise will fetch it, store the metadata in
-    # the db, and then render the article
-
-    """
-    id       = Column(Integer, Sequence("post_id_sequence"), primary_key=True)
-    title    = Column(String(1024))
-    content  = Column(Text)
-    datetime = Column(DateTime, default=datetime.datetime.now)
+    Downloads the thing.
     """
 
     def __init__(self, url):
@@ -53,6 +38,35 @@ class Article():
             sys.exit()
 
 
+#class Article(Base):
+class Article():
+    """
+    Retrieves the article from the website.
+    TODO: Exposes methods for storing article in the database.
+    """
+    #__tablename__ = "articles"
+
+    # Create instance with Article(slug) => Article("newton")
+    # this class will check for the article in the db and render it
+    # if it exists, otherwise will fetch it, store the metadata in
+    # the db, and then render the article
+
+    """
+    id       = Column(Integer, Sequence("post_id_sequence"), primary_key=True)
+    title    = Column(String(1024))
+    content  = Column(Text)
+    datetime = Column(DateTime, default=datetime.datetime.now)
+    """
+
+    def __init__(self, url):
+        self.url = url
+
+    def wordcount(self, article):
+        """
+        Given article content, calculate the number of words.
+        """
+
+
 
 class SEP(Article):
     """
@@ -78,7 +92,8 @@ class SEP(Article):
         app.logger.info("Creating SEP instance: " + self.url)
 
         # Generate object content
-        self.response = self.fetch(self.url)
+        dl = Fetcher(self.url)
+        self.response = dl.fetch(self.url)
         self.tree     = etree.HTML(self.response.text)
         self.content  = self.parse()
         self.content['url'] = self.url
