@@ -1,48 +1,18 @@
 import sys
 import datetime
-import requests
 from lxml import etree
 from sqlalchemy import Column, Integer, String, Sequence, Text, DateTime
 
+from fetcher import Fetcher
 from client import app
 #from database import Base, engine, session
-
-class Fetcher():
-    """
-    Downloads the thing.
-    """
-
-    def __init__(self, url):
-        self.url = url
-
-    def fetch(self, url):
-        """
-        Download and return the HTML page content.
-        """
-        custom_headers = {
-            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36"
-        }
-        try:
-
-            page     = requests.get(url,headers=custom_headers)
-            response = page.status_code
-        except:
-            print('Bad connection.')
-            print(self)
-            sys.exit()
-
-        if response == 200:
-            return page
-        else:
-            print('Bad header response: ' + str(response))
-            sys.exit()
 
 
 #class Article(Base):
 class Article():
     """
     Retrieves the article from the website.
-    TODO: Exposes methods for storing article in the database.
+    TODO: Expose methods for storing article in the database.
     """
     #__tablename__ = "articles"
 
