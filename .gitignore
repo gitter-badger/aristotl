@@ -5,3 +5,5 @@ venv
 *.db
 *.log
 *nrepl*
+.lein-repl-history
+target

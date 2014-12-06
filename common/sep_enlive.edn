@@ -1,0 +1,13 @@
+;; Declarative selectors for the enlive scraper
+
+{
+ :title           [:#aueditable :h1]
+ :pubdate         [:#pubinfo]
+ :lede            [:#preamble]
+ :toc             [:#toc :ul]
+ :content         [:#main-text]
+ :bibliography    [:#bibliography]
+ :resources       [:#other-internet-resources]
+ :related-entries [:#related-entries]
+ :copyright       [:#article-copyright]
+ }

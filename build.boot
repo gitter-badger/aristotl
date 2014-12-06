@@ -1,12 +1,22 @@
+(set-env! :dependencies '[[leiningen-core "2.5.0"]])
+(use 'leiningen.core.project)
+
+(eval (read-string (slurp "project.clj")))
+
 (set-env!
- :src-paths #{"server"}
- :rsc-paths #{"common"}
- :dependencies (read-string (slurp "deps.edn")))
+ :src-paths (:source-paths project)
+ :rsc-paths (:resource-paths project)
+ :dependencies (:dependencies project))
 
-(comment
-  (require '[spider :as s])
+(deftask dev-repl
+  "development repl"
+  []
+  (repl :server))
 
-  (deftask start-spider
-    "crawl it"
-    (s/run))
-)
+(require '[spider :as s])
+
+(deftask start-spider
+  "crawl it"
+  []
+  (s/run))
+
