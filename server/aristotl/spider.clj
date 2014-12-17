@@ -1,9 +1,11 @@
-(ns spider
-  (:require ;[itsy.core :refer-all true]
-            [net.cgrand.enlive-html :as html]
+(ns aristotl.spider
+  (:require [net.cgrand.enlive-html :as html]
             [clojure.string :as str]
             [clojure.pprint :refer :all]))
 
+;; The Spider will crawl the index page and, for each article in the SEP, parse the
+;; HTML and input it into a Postgres database. The database connection configuration
+;; is located in the `aristotl.db` namespace.
 
 ;; First, I'll need the base url for forming the rest.
 (def base-url (str "http://plato.stanford.edu/"))
@@ -12,7 +14,7 @@
 ;; point for a spider to fill the database.
 (def index-url (str base-url "contents.html"))
 
-;; I have all of the article enlive selectors stored as an edn file. This allows
+;; I have all of the article's enlive selectors stored as an edn file. This allows
 ;; (and forces) me to build the parser in a general way. That is, the parser should
 ;; be able to take any amount of selectors. This way, when I eventually move on to
 ;; other encyclopedias, I will be able to just pop in other selector files and
@@ -31,11 +33,7 @@
 (def index
   (fetch index-url))
 
-;; A helper function for taking slugs from the index page and feeding them to a
-;; fetcher or a spider.
-(defn- make-url [slug] (str base-url slug))
-
-;; Parse the index file all of it's links.
+;; Parse the index file for all of it's links.
 (def index-links
   (let [a-tags   (html/select index [:div#content :ul :li :a])
         entries  (map #(get-in % [:attrs :href]) a-tags)
@@ -44,7 +42,15 @@
         links    (map make-url filtered)]
     links))
 
-
+(defn remove-newline-chars [root]
+  "Walks the data structure and removes newline characters.
+  Only works with SEP enlive nodes."
+  (clojure.walk/prewalk
+   (fn [x] (if (= clojure.lang.LazySeq (type x))
+             (if (= java.lang.String (type (first x)))
+               (clojure.string/replace (first x) #"\n" "")))
+     x)
+   root))
 
 ;;; working
 (comment
@@ -132,6 +138,8 @@
   [article]
   (apply str (map #(html/emit* (% article)) (keys article))))
 
+;; This should really be a lazy-recur type of function. It would really save
+;; CPU cycles
 (defn run-spider []
   (let [article-list (map fetch index-links)
         parsed-articles (map parse-article article-list)])
@@ -139,4 +147,4 @@
   )
 
                            
-(defn run [] "Nothing to see here, move along.")
+(defn run [] (print"Nothing to see here, move along."))
