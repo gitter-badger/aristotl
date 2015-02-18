@@ -1,27 +1,32 @@
 (ns aristotl.db
-  "A common namespace for database interactions."
-  :require [clojure.java.jdbc :as jdbc]
-           [yesql.core :refer [defquery]]
-           [environ.core :refer [env])
-
-;; Supplied by the host environment, the db url takes the basic form of:
-;;    postgres://user:password@host:port/database
-(def ^:dynamic *db-url* (env :database_url))
-
-(defn- make-subname
-  "Arguments: 'local' for development, 'remote' for production."
-  [x]
-  (if (= x "remote")
-    (str "postgres://" *host* ":" *port* "/" *database*)
-    (if (= x "local")
-      (str "//" *host* ":" *port* "/" *database*)
-      (thow (Exception.
-             "You need to include either 'local' or 'remote' in `make-subname`.")))))
+  "Datomic bootstrap and Datomic + Pedestal interceptor"
+  (:require [datomic.api :as d]
+            [io.pedestal.interceptor :refer [interceptor]]
+            [io.rkn.conformity :as c]
+            [environ.core :refer [env]))
 
 
-(def dp-spec {:classname "org.postgresql.Driver"
-              :subprotocol "postgresql"
-              :subname *db-url*})
+(defonce uri (get env :datomic-uri (str "datomic:mem://" (d/squuid))))
+
+(defn bootstrap!
+  "Bootstrap schema into the database."
+  [uri]
+  (d/create-database uri)
+  (let [conn (d/connect uri)]
+    ;; TODO:     v Create resources/<your-schema.edn> and add "<your-schema>.edn" to this vector
+    (doseq [rsc [ ]]
+      (let [norms (c/load-schema-rsc rsc)]
+        (c/ensure-conforms conn norms)))))
+
+ (def insert-datomic
+   "Provide a Datomic conn and db in all incoming requests"
+   (interceptor
+     {:name ::insert-datomic
+      :enter (fn [context]
+               (let [conn (d/connect uri)]
+                 (-> context
+                     (assoc-in [:request :conn] conn)
+                     (assoc-in [:request :db] (d/db conn)))))}))
 
 
 (comment
@@ -58,5 +63,3 @@
                (recur (inc i)
                       (count sqls)
                       (conj queries (nth symbols i) (nth sqls i))))))))
-
-(make-queries-from-dirs "common/sql")
