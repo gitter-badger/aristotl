@@ -1,4 +1,4 @@
-(set-env! :source-paths   #{"src"}
+(set-env! :source-paths   #{"server"}
           :test-paths     #{"test"}
           :resource-paths #{"resources" "config"}
           :dependencies   '[[org.clojure/clojure "1.6.0"]
@@ -26,7 +26,7 @@
                             [org.slf4j/log4j-over-slf4j "1.7.7"]])
 
 (def version "0.0.1-SNAPSHOT")
-(task-options! pom {:project 'micro
+(task-options! pom {:project 'aristotl
                     :version (str version "-standalone")
                     :description "FIXME: write description"
                     :license {"License Name" "All Rights Reserved"}})
@@ -37,8 +37,8 @@
 (deftask bootstrap
   "Bootstrap the Datomic database"
   []
-  (require '[micro.db :as db])
-  ((resolve 'db/bootstrap!) @(resolve 'micro.db/uri)))
+  (require '[aristotl.db :as db])
+  ((resolve 'db/bootstrap!) @(resolve 'aristotl.db/uri)))
 
 ;; == Testing tasks ========================================
 
@@ -73,15 +73,15 @@
 (deftask build
   "Build my project."
   []
-  (comp (aot :namespace '#{ micro })
+  (comp (aot :namespace '#{ aristotl })
         (pom)
         (uber)
-        (jar :main 'micro)))
+        (jar :main 'aristotl)))
 
-(require '[micro :as micro])
+(require '[aristotl :as aristotl])
 
 (deftask server
   "Run a web server"
   []
-  (micro/start :io.pedestal.http/join? true))
+  (aristotl/start :io.pedestal.http/join? true))
 

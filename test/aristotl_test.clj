@@ -1,7 +1,7 @@
-(ns micro-test
+(ns aristotl-test
   (:require [clojure.test :refer :all]
             [io.pedestal.test :refer :all]
-            [micro.test-helpers :refer :all]))
+            [aristotl.test-helpers :refer :all]))
 
 (deftest home-page-test
   (is (.contains

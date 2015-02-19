@@ -1,10 +1,10 @@
-(ns micro.test-helpers
+(ns aristotl.test-helpers
   (:require [datomic.api :as d]
             [io.pedestal.http :as http]
             [io.pedestal.test :refer [response-for]]
             [cheshire.core :as json]
-            [micro]
-            [micro.db :as db]))
+            [aristotl]
+            [aristotl.db :as db]))
 
 (defonce ^:private service-fn (atom nil))
 
@@ -12,7 +12,7 @@
   "Return a service-fn for use with Pedestal's `response-for` test helper."
   []
   (db/bootstrap! db/uri)
-  (swap! service-fn #(or % (::http/service-fn (http/create-servlet micro/service)))))
+  (swap! service-fn #(or % (::http/service-fn (http/create-servlet aristotl/service)))))
 
 (defn with-seeds
   "Return a db with seed tx-data applied"

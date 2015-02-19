@@ -6,7 +6,7 @@
 
 (defn hello-world
   [request]
-  (ring-resp/response "Hello, World!"))
+  (ring-resp/response "Hello, my friend!"))
 
 (defroutes routes
   [[["/" {:get hello-world}
