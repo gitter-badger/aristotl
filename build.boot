@@ -5,7 +5,8 @@
                             [io.pedestal/pedestal.service "0.4.0-SNAPSHOT"]
                             [io.pedestal/pedestal.jetty   "0.4.0-SNAPSHOT"]
                             [frankiesardo/pedestal-swagger    "0.1.0-beta"]
-
+                            
+                            [clj-http   "1.0.1"]
                             [ns-tracker "0.2.2"]
                             [environ    "1.0.0"]
                             [enlive     "1.1.5"]
@@ -30,6 +31,15 @@
                     :version (str version "-standalone")
                     :description "FIXME: write description"
                     :license {"License Name" "All Rights Reserved"}})
+
+;; == Cider REPL =========================================
+
+(require 'boot.repl)
+(swap! boot.repl/*default-dependencies*
+       concat '[[cider/cider-nrepl "0.8.2"]])
+
+(swap! boot.repl/*default-middleware*
+       conj 'cider.nrepl/cider-middleware)
 
 ;; == Datomic =============================================
 (load-data-readers!)
