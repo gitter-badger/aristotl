@@ -1,44 +1,28 @@
-# Aristotl [![Circle CI](https://circleci.com/gh/bsima/aristotl.png?style=badge)](https://circleci.com/gh/bsima/aristotl)
+# WIP - Aristotl [![Circle CI](https://circleci.com/gh/bsima/aristotl.png?style=badge)](https://circleci.com/gh/bsima/aristotl)
 
-An alternative viewer for the [Stanford Encyclopedia of Philosophy](http://plato.stanford.edu).
+An API for philosophy data.
 
-**Currently being re-written to Python. Or maybe Clojure. Not sure yet...**
+> Sun Mar 15: The current prototype can be viewed at [aristotl.herokuapp.com](http://aristotl.herokuapp.com), but this is an old version, like 30 commits ago. It's just a Python scraper for the [SEP](http://plato.stanford.edu)
 
-The current prototype can be viewed at [aristotl.herokuapp.com](http://aristotl.herokuapp.com).
+## Rationale
 
-## Rationale ##
+There are many great sources for philosophy papers and readings:
 
-The SEP is awesome. High-quality philosophy articles worthy of inclusion in any philosophy paper's bibliography. However, navigating and reading the SEP online is a PITA. And the lack of mobile support frustrates me.
+* Extremely high quality articles on the [Stanford Encyclopedia of Philosophy](http://plato.stanford.edu/)
+* More high quality articles on the [University of Tennessee Martin](http://www.iep.utm.edu/)
+* [JSTOR](http://www.jstor.org/) has a ton of papers available, some free, some through institutional access.
+* [Philpapers](http://philpapers.org) has a huge database of contemporary philosophy papers.
+* Project Gutenberg has a [philosophy bookshelf](http://www.gutenberg.org/wiki/Philosophy_(Bookshelf))
+* and many more...
 
-Aristotl, when complete, will parse a given SEP page and display the content in a much easier-to-read and easier-to-navigate format. Each article will have a table of contents that scrolls with the page, the text will be bigger and easier to read, background/foreground color contrasts will be better, the navigation sidebars and stuff will hide automatically while reading an article, etc etc. (Many of these ideas are inspired by the Medium.com reading experience.)
+These are free, academic resources for high-quality philosophy. On the other hand, popular culture---[especially Silicon Valley tech culture](https://news.ycombinator.com/item?id=8709597)---does not seem to value academic philosophy. Certain figures have become popular, such as Ayn Rand or Alan Turing, but the history of philosophy is much richer than pop culture might realize.
 
-Additionally, I want a way to parse the information in the SEP. There is no API, but, after I scrape the info and store the raw content in a database, the next logical thing to do (after displaying it in html as described above) is to expose that information via JSON. This will help me answer such questions as: Which article has the most citations? Which is the longest? Is there a branch of philosophy (say, ethics) that is underrepresented in the SEP? So on and so forth... *And*, when I have a JSON API, I will be able to make a [DuckDuckGo](http://ddg.gg) plugin that parses the SEP for information whenever someone searches for philosophy stuff. That would be so cool :)
+How can philosophy become as ubiquitous and accessible as computer science? My answer to this question is to make philosophy even more accessible, in a medium that is familiar to computer scientists and software engineers. 
 
-## How it works currently ##
+Aristotl will accomplish this by exposing a [REST API](https://en.wikipedia.org/wiki/Representational_state_transfer) first, and later by creating a web app that will provide access to all of the data wrapped in an easy-to-use GUI. The API will contain endpoints for every philosopher, concept, and discipline in philosophy. Each endpoint will provide bibliographies of references collected from multiple sources, full-text articles where available, and recommendations for similar entries (calculated by the Aristotl system). This data will be persisted in a Postgres database (transacted by Datomic) and supplied by scraping encyclopedias or pulling from the Philpapers API.
 
-Right now, a Python app (in the `client` directory) is hosted on Heroku. Whenever an article is requested, the Python app fetches the content from the SEP, parses it, and stores it in the database. If it already exists in the database, the app simply displays it as HTML.
+## Contributing
 
-**Next steps**: Write a backend that can fill out the database for me by crawling the SEP's index (see `TODO.org` file). I started writing this in Clojure (see `server` directory) but didn't get too far yet.
+I take notes on [Trello](https://trello.com/b/jKgHwGHA/aristotl-notes) and in .org files in this repo. I plan features and todos in Trello and GitHub issues.
 
-The `common` directory contains declarative data structures for the parser (`.edn`) and SQL database objects (`.sql`). These can be shared between the client and server, accross languages, which is nice.
-
-## Ideas ##
-
-* a sane commenting system would be cool...
-* Design inspiration: Medium.com article reading styles, plus @cmod's Bibliotype library. That'd be so sexy.
-    * Instapaper.com is another great reading experience
-* JavaScript search-and-suggest box on the index page
-* Implement an auth system and save user notes? Or at least highlights?
-* a social highlighting system like the kindle has. be sweet.
-* A night reading style is necessary.... omg flux. i need flux on this site.
-* Don't forget to add a GitHub banner in the corner! Get ppl to contribute
-* **When someone highlights a term, provide a popup for definitions, links to other SEP articles, links to Wikipedia, etc.**
-
-## TODO ##
-
-* Make a CONTRIBUTING.md
-* tighten up the code
-
-## Install and Run ##
-
-TODO...
+This is a WIP, but if you would like to get involved, you can contact me via email or [twitter](https://twitter.com/bensima), or just start working on issues and Trello cards. I generally try to follow [GitHub Flow](https://guides.github.com/introduction/flow/).
