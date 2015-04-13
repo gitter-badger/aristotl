@@ -4,15 +4,15 @@
           :dependencies   '[[org.clojure/clojure "1.6.0"]
                             [io.pedestal/pedestal.service "0.4.0-SNAPSHOT"]
                             [io.pedestal/pedestal.jetty   "0.4.0-SNAPSHOT"]
-                            [frankiesardo/pedestal-swagger    "0.1.0-beta"]
+                            [frankiesardo/pedestal-swagger    "0.3.0"]
                             
-                            [clj-http   "1.0.1"]
+                            [clj-http   "1.1.0"]
                             [ns-tracker "0.2.2"]
                             [environ    "1.0.0"]
                             [enlive     "1.1.5"]
                             
                             ;; Datomic, if your heart desires it
-                            [com.datomic/datomic-free "0.9.5130"
+                            [com.datomic/datomic-free "0.9.5153"
                              :exclusions [joda-time
                                           org.slf4j/slf4j-nop
                                           org.slf4j/slf4j-log4j12]]
@@ -20,11 +20,11 @@
                              :exclusions [com.datomic/datomic-free]]
 
                             ;; Logging
-                            [ch.qos.logback/logback-classic "1.1.2"
+                            [ch.qos.logback/logback-classic "1.1.3"
                              :exclusions [org.slf4j/slf4j-api]]
-                            [org.slf4j/jul-to-slf4j "1.7.7"]
-                            [org.slf4j/jcl-over-slf4j "1.7.7"]
-                            [org.slf4j/log4j-over-slf4j "1.7.7"]])
+                            [org.slf4j/jul-to-slf4j "1.7.12"]
+                            [org.slf4j/jcl-over-slf4j "1.7.12"]
+                            [org.slf4j/log4j-over-slf4j "1.7.12"]])
 
 (def version "0.0.1-SNAPSHOT")
 (task-options! pom {:project 'aristotl
