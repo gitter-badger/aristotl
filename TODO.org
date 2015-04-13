@@ -1,40 +1,117 @@
-* Stuff that needs done
+#+TITLE: Notes and Todos
+#+AUTHOR: Ben Sima <bensima@gmail.com>
+#+DATE: Sunday, April 5, 2015
 
-but who knows if I'll do them...
+This project is to be a system of computation for processing data related to philosophy papers, history, etc. I also
+expect it to be state-of-the-art with respect to computer science. After all, I should have some fun with this.
 
-From here on, I have a scraper that works. However, if I want a /really/ useful
-thin, I should properly destructure the HTML for processing.
+My latest idea is to use a microservices architecture and distribute these services in a [[https://github.com/svanderburg/disnix][Disnix]] cluster. Each node in the
+cluster should be easy to setup and deploy with a simple script (all you have to do is get the [[http://sandervanderburg.blogspot.com/2011/02/disnix-toolset-for-distributed.html][DisnixService]] installed
+and running on a machine, add it to the configuration, and run =disnix-env ...=). This would allow easy deployment for
+people that want to support Aristotl but may not be able to program.
 
-** devops
-  The deploy process is actually pretty good right now. For the Python client,
-  that is. It runs on a single (free) heroku dyno. Adding a server might be
-  tricky, and I'll probably need a second dyno. FYI.
+I have this down to the following services, each service communicating via REST or Websockets, depending on which is
+more appropriate:
 
-** client
-  I need a frontend design. `bower init` and such.
+* Database Service [Clojure]
 
-- make the text bigger
-- make the text content only 52-ems wide max
-- ?? add some basic data analytics ??
+  The database should obviously be Datomic (on top of Cassandra perhaps?), and a Clojure app will run a REST service to
+  access the data. Routing will be handled by Pedestal (with swagger), and really it should only do a few things:
 
-  CSS stuff is what I should mostly focus on, as it will survive a rewrite to
-  Clojure. Unless I use Garden, of course...
+  1. Receive data from the Discovery Service and Citation Service. The data should be in Pandoc native.
+  2. Serve data to the world in a variety of formats (Transit/EDN first, then later JSON, XML, and HTML).
+  3. Do any necessary rate throttling, data checking, etc. There shouldn't be much of this to start, however.
+     
+  For now, it would be best to just dump stuff into the database, rebuilding when necessary, but in the future it would
+  be ideal to track /all/ of the changes to the database, much in the way that Git tracks all changes to source code.
+  Besides, it would be fun to write a diffing algorithm and such. Additionally, the database service will act as a
+  /machine learning/ and /analytics/ service that can do all of the necessary computations for determining what citations
+  and articles are related, etc.
 
-** server
-*** TODO spider
-  I need to be able to get statistics for /all/ of the pages on the SEP. So
-  should I write a crawler? I think so.
+** TODO [#B] Learn Datomic (schemas, setup, etc)
+** TODO [#C] Define database schema
+** TODO [#C] Get Discovery Service data into the database
 
-  I could either use Clojure or OCaml for the actual crawling of pages, and
-  have it run in the background on the server, as a service. That would be nice.
-  It would also allow me to offload the data analytics stuff from Python, making
-  the Python code purely client-oriented; i.e., Python code would only be
-  responsible for displaying the content scraped from the SEP, and statistics
-  supplied by the database already populated by the crawler service.
+* Discovery Service [Clojure]
 
-  HEYO! The SEP has a /[[http://plato.stanford.edu/contents.html][table of contents]]/! Which means I can write a very specific
-  crawler that uses that page as a starting point only, and doesn't go outside
-  the plato.stanford.edu domain.
+  To "discover" new content, I'll need some kind of a crawler. I think this should also be done in Clojure, since I can
+  use the awesome [[https://github.com/cgrand/enlive][Enlive]] library. To start, I will simply crawl the SEP's [[http://plato.stanford.edu/contents.html][contents page]] and get the information from each
+  of those pages in the form of cleaned HTML. (In the future, I can add other sources, such as the PhilPapers and JSTOR APIs.)
+  The data will then be sent to the Parser Service and turned into Pandoc Native.
 
-  Okay, so I think this should be done in Clojure... Yes, Clojure. Then
-  eventually I could port the client over to ClojureScript as well.
+  The plan is to:
+
+  1. Grab the page via HTTP.
+  2. Extract the =#article= section.
+  3. Extract specific things inside =#article=, such as:
+     1. Images (store in S3)
+     2. Metadata (author, copyright, last published, etc)
+  4. Identify the core content (e.g. =#main-text= in the SEP) and send that to the Parser Service
+     to be transformed into Pandoc Native
+  5. Identify the bibliography (e.g. =#bibliography= in the SEP) and send to the Parser Service to
+     be transformed into the CSL-flavored Pandoc Native
+  6. After receiving the Pandoc Native from 4 and 5, Discovery will `assoc` them into the record along
+     with the metadata (3.2) and send them to the Database.
+
+** TODO [#A] Crawl and scrape the SEP contents page
+** TODO [#C] Add a service-oriented infrastructure of some kind (with boot, or components, etc)
+* Parser Service [Haskell]
+
+  This must parse the structured text into [[http://johnmacfarlane.net/BayHac2014/doc/pandoc-types/Text-Pandoc-Definition.html][Pandoc Native]], and then put it into the database. So basically it's just a
+  wrapper for Pandoc.
+  
+** TODO [#C] Outline a spec for the Parser Service API
+** TODO [#C] Begin writing the Parser Service API
+* Citation Service [Haskell]
+
+  Parsing citations will not be easy. I can get most of the information I need from the HTML markup in the Crawler Service,
+  But for the parts that I can't get, I'll need some kind of a parser, or a /prover/! I could write a Haskell service that
+  takes plain-text values and checks them against a citation grammar, such as the [[http://istitutocolli.org/repos/citeproc-hs/][Citation Style Language]] (pandoc works with this).
+
+  For example,
+
+#+BEGIN_SRC haskell
+
+citation = "Paulson, S., 2002, Introduction to Kelsen's Introduction to the Problems of Legal Theory, p. xvii, Oxford: Clarendon Press."
+
+data article = ["a", "an", "the", "to", "of"]
+data pronoun = [[A..Z], [a..z]]
+data name = [[Char], '.']
+
+title :: String -> Char
+title match with title attribues -- I have no idea, it's 4am wtf
+  
+#+END_SRC
+ 
+* Structure
+  
+  Dir structure would look like this:
+  
+  * services
+    * database
+      * src
+      * test
+    * crawler
+      * src
+      * test
+    * parser
+      * src
+      * test
+    * citations
+      * src
+      * test
+  * clients 
+    * web
+    * desktop
+    * cli
+      
+  The "clients" directory would eventually be a set of apps that could interface with the backend services.
+  This will happend very far in the future.
+
+* Financial Support
+
+  The heavy computation I'm describing will require quite a bit of processor power, thus I think financial support is
+  necessary. To begin, I think I should bootstrap with just one instance, but then scale up manually as necessary. I
+  shall commit to always running one instance on my own dime, but I shall go to others if I need more instances. To start,
+  these would be manually provisioned, of course, but in the future they could be automated with Nix (perhaps even with a
+  one-click interface, like Heroku has).
