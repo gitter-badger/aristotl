@@ -14,13 +14,6 @@
 ;; point for a spider to fill the database.
 (def index-url (str base-url "contents.html"))
 
-;; I have all of the article's enlive selectors stored as an edn file. This allows
-;; (and forces) me to build the parser in a general way. That is, the parser should
-;; be able to take any amount of selectors. This way, when I eventually move on to
-;; other encyclopedias, I will be able to just pop in other selector files and
-;; eveything will work hunky-dory.
-(def selectors (read-string (slurp "common/sep_enlive.edn")))
-
 ;; A helper function for taking slugs from the index page and feeding them to a
 ;; fetcher or a spider.
 (defn- make-url [slug] (str base-url slug))
