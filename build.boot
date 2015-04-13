@@ -1,4 +1,4 @@
-(set-env! :source-paths   #{"server"}
+(set-env! :source-paths   #{"src"}
           :test-paths     #{"test"}
           :resource-paths #{"resources" "config"}
           :dependencies   '[[org.clojure/clojure "1.6.0"]
@@ -11,7 +11,6 @@
                             [environ    "1.0.0"]
                             [enlive     "1.1.5"]
                             
-                            ;; Datomic, if your heart desires it
                             [com.datomic/datomic-free "0.9.5153"
                              :exclusions [joda-time
                                           org.slf4j/slf4j-nop

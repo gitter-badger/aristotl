@@ -3,8 +3,8 @@
             [io.pedestal.http.route.definition :refer [defroutes]]
             [ns-tracker.core :refer [ns-tracker]]
             [environ.core :refer [env]]
-            [aristotl.routes :refer [routes]]
-            [aristotl.db :as db]))
+            [aristotl.database.routes :refer [routes]]
+            [aristotl.database :as db]))
 
 (defonce modified-namespaces
   (if (env :prod)

@@ -1,4 +1,4 @@
-(ns aristotl.db
+(ns aristotl.database
   "Datomic bootstrap and Datomic + Pedestal interceptor"
   (:require [datomic.api :as d]
             [io.pedestal.interceptor :refer [interceptor]]
@@ -27,3 +27,4 @@
                  (-> context
                      (assoc-in [:request :conn] conn)
                      (assoc-in [:request :db] (d/db conn)))))}))
+
