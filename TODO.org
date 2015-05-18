@@ -2,6 +2,9 @@
 #+AUTHOR: Ben Sima <bensima@gmail.com>
 #+DATE: Sunday, April 5, 2015
 
+*Current Overarching Goal*: To download all of the SEP articles and run a document clustaring algorithm on them.
+Because I would like to know how all of these articles are related!
+
 This project is to be a system of computation for processing data related to philosophy papers, history, etc. I also
 expect it to be state-of-the-art with respect to computer science. After all, I should have some fun with this.
 
