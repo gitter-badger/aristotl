@@ -13,8 +13,10 @@ people that want to support Aristotl but may not be able to program. See for exa
 I have this down to the following services, each service communicating via REST or Websockets, depending on which is
 more appropriate:
 
-* Database Service [Clojure]
+* Clojure: Database and Crawler Service
 
+** Database service
+    
   The database should obviously be Datomic (on top of Cassandra perhaps?), and a Clojure app will run a REST service to
   access the data. Routing will be handled by Pedestal (with swagger), and really it should only do a few things:
 
@@ -28,12 +30,12 @@ more appropriate:
   /machine learning/ and /analytics/ service that can do all of the necessary computations for determining what citations
   and articles are related, etc.
 
-** Record schema
+*** Record schema
 
    Each record needs to have a UUID at least. The rest depends on the kind of record. Thinkers will have different record
    fields than concepts, obviously.
   
-** Interface
+*** Interface
 
    #+BEGIN_EXAMPLE
    curl -i -X GET http://api.aristotl.co/thinker/{name}
@@ -46,11 +48,11 @@ more appropriate:
    curl -i -X GET http://api.aristotl.co/concept/{name}
    
 
-** TODO [#B] Learn Datomic (schemas, setup, etc)
-** TODO [#C] Define database schema
-** TODO [#C] Get Discovery Service data into the database
+*** TODO [#B] Learn Datomic (schemas, setup, etc)
+*** TODO [#C] Define database schema
+*** TODO [#C] Get Discovery Service data into the database
 
-* Discovery Service [Clojure]
+** Discovery Service
 
   To "discover" new content, I'll need some kind of a crawler. I think this should also be done in Clojure, since I can
   use the awesome [[https://github.com/cgrand/enlive][Enlive]] library. To start, I will simply crawl the SEP's [[http://plato.stanford.edu/contents.html][contents page]] and get the information from each
@@ -71,16 +73,18 @@ more appropriate:
   6. After receiving the Pandoc Native from 4 and 5, Discovery will `assoc` them into the record along
      with the metadata (3.2) and send them to the Database.
 
-** TODO [#A] Crawl and scrape the SEP contents page
-** TODO [#C] Add a service-oriented infrastructure of some kind (with boot, or components, etc)
-* Parser Service [Haskell]
+*** TODO [#A] Crawl and scrape the SEP contents page
+*** TODO [#C] Add a service-oriented infrastructure of some kind (with boot, or components, etc)
+* Haskell: Parser and Citation Service
+  
+** Parser
 
   This must parse the structured text into [[http://johnmacfarlane.net/BayHac2014/doc/pandoc-types/Text-Pandoc-Definition.html][Pandoc Native]], and then put it into the database. So basically it's just a
   wrapper for Pandoc.
   
-** TODO [#C] Outline a spec for the Parser Service API
-** TODO [#C] Begin writing the Parser Service API
-* Citation Service [Haskell]
+*** TODO [#C] Outline a spec for the Parser Service API
+*** TODO [#C] Begin writing the Parser Service API
+** Citations
 
   Parsing citations will not be easy. I can get most of the information I need from the HTML markup in the Crawler Service,
   But for the parts that I can't get, I'll need some kind of a parser, or a /prover/! I could write a Haskell service that
@@ -101,29 +105,6 @@ title match with title attribues -- I have no idea, it's 4am wtf
   
 #+END_SRC
  
-* Structure
-  
-  Dir structure would look like this:
-  
-  * database
-    * src
-    * test
-  * crawler
-    * src
-    * test
-  * parser
-    * src
-    * test
-  * citations
-    * src
-    * test
-  * web
-  * desktop
-  * cli
-      
-  The "clients" directory would eventually be a set of apps that could interface with the backend services.
-  This will happend very far in the future.
-
 * Financial Support
 
   The heavy computation I'm describing will require quite a bit of processor power, thus I think financial support is
