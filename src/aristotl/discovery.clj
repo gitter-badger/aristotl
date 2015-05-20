@@ -21,11 +21,11 @@
   (base-url    [this] "http://plato.stanford.edu/")  
   (index-url   [this] (str base-url "contents.html"))
   (index-links [this]
-    (let [a-tags   (html/select index [:div#content :ul :li :a])
-        entries  (map #(get-in % [:attrs :href]) a-tags)
-        sharp?   #(re-find #"^#.+" %) ;remove links to subsections
-        filtered (remove sharp? entries)
-        links    (map make-url filtered)]
+    (let [a-tags   (html/select (index-url) [:div#content :ul :li :a])
+          entries  (map #(get-in % [:attrs :href]) a-tags)
+          sharp?   #(re-find #"^#.+" %) ;remove links to subsections
+          filtered (remove sharp? entries)
+          links    (map make-url filtered)]
     links))
   
   Article
