@@ -1,4 +1,4 @@
-(set-env! :source-paths   #{"src"}
+(set-env! :source-paths   #{"src/clojure"}
           :test-paths     #{"test"}
           :resource-paths #{"resources" "config"}
           :dependencies   '[[org.clojure/clojure "1.6.0"]
