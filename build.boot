@@ -2,16 +2,16 @@
           :test-paths     #{"test"}
           :resource-paths #{"resources" "config"}
           :dependencies   '[[org.clojure/clojure "1.6.0"]
-                            [io.pedestal/pedestal.service "0.4.0-SNAPSHOT"]
-                            [io.pedestal/pedestal.jetty   "0.4.0-SNAPSHOT"]
-                            [frankiesardo/pedestal-swagger    "0.3.0"]
+                            [io.pedestal/pedestal.service "0.4.0"]
+                            [io.pedestal/pedestal.jetty   "0.4.0"]
+                            [frankiesardo/pedestal-swagger    "0.4.0"]
                             
-                            [clj-http   "1.1.0"]
-                            [ns-tracker "0.2.2"]
+                            [clj-http   "1.1.2"]
+                            [ns-tracker "0.3.0"]
                             [environ    "1.0.0"]
                             [enlive     "1.1.5"]
                             
-                            [com.datomic/datomic-free "0.9.5153"
+                            [com.datomic/datomic-free "0.9.5173"
                              :exclusions [joda-time
                                           org.slf4j/slf4j-nop
                                           org.slf4j/slf4j-log4j12]]
