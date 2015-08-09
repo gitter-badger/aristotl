@@ -2,8 +2,6 @@
 #+AUTHOR: Ben Sima <bensima@gmail.com>
 #+DATE: Sunday, April 5, 2015
 
-[[https://circleci.com/gh/bsima/aristotl.png?style=badge][https://circleci.com/gh/bsima/aristotl]]
-  
 An API for philosophy data.
   
 Sun Mar 15: The current prototype can be viewed at
