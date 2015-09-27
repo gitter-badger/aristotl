@@ -3,6 +3,7 @@
           :dependencies   '[[org.clojure/clojure "1.7.0"]
                             [org.clojure/core.typed "0.3.11"]
                             [org.clojure/core.match "0.3.0-alpha4"]
+                            [org.clojure/tools.logging "0.3.1"]
                             [adzerk/boot-test "1.0.4" :scope "test"]
 
                             [com.stuartsierra/component "0.3.0"]

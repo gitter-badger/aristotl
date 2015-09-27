@@ -3,6 +3,7 @@
   stores the content into ElasticSearch and the metadata into
   Datomic."
   (:require [com.stuartsierra.component :as component]
+            [clojure.tools.logging :as log]
             [adzerk.env :as env]
             [itsy.core :as itsy]
             [itsy.handlers.elasticsearch :refer [make-es-handler]]
@@ -41,11 +42,12 @@
 (defrecord Itsy [crawl-settings]
   component/Lifecycle
   (start [component]
-    (println "Starting the spider")
+    (log/info "Starting Itsy component")
     (let [spider (itsy/crawl crawl-settings)]
       (assoc component :spider spider)))
 
   (stop [component]
+    (log/info "Stopy Itsy component")
     (itsy/stop-workers (:spider component))
     (assoc component :spider nil)))
 

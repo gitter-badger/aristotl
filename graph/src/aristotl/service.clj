@@ -2,6 +2,7 @@
   (:require [io.pedestal.http :as http]
             [io.pedestal.http.route.definition :refer [defroutes]]
             [com.stuartsierra.component :as component]
+            [clojure.tools.logging :as log]
             [aristotl.routes :refer [routes]]
             [aristotl.database :as db]
             [adzerk.env :as env]))
@@ -37,8 +38,10 @@
   component/Lifecycle
   (start [component]
     (let [server-instance start-service]
+      (log/info "Starting Pedestal component")
       (assoc component :service server-instance)))
   (stop [component]
+    (log/info "Stopping Pedestal component")
     (update-in component [:service] stop-service)))
 
 (defn new-pedestal [service-map]
