@@ -1,4 +1,4 @@
-(ns aristotl.database.routes
+(ns aristotl.routes
   (:require [io.pedestal.http.route.definition :refer [defroutes]]
             [datomic.api :as d]
             [ring.util.response :as ring-resp]

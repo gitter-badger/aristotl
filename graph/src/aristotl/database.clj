@@ -2,11 +2,10 @@
   "Datomic bootstrap and Datomic + Pedestal interceptor"
   (:require [datomic.api :as d]
             [io.pedestal.interceptor :refer [interceptor]]
-            [io.rkn.conformity :as c]
-            [environ.core :refer [env]]))
+            [io.rkn.conformity :as c]))
 
 
-(defonce uri (get env :datomic-uri (str "datomic:mem://" (d/squuid))))
+(defonce uri (str "datomic:mem://" (d/squuid)))
 
 (defn bootstrap!
   "Bootstrap schema into the database."
