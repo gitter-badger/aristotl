@@ -6,6 +6,4 @@
 (defn -main [& args]
   (let [system (or (first args) #'dev-system)]
     (set-init! system)
-    (go)
-    (start ::http/join? true
-           ::http/routes routes)))
+    (go)))
