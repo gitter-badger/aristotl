@@ -4,10 +4,8 @@
 
 An API for philosophy data.
   
-Sun Mar 15: The current prototype can be viewed at
-[[http://aristotl.herokuapp.com][aristotl.herokuapp.com]], but this is an old version, like 30 commits
-ago. It's just a Python scraper for [[http://plato.stanford.edu][SEP]] articles.
-  
+*Current Status:* Out of planning and in development.
+
 * Rationale
    
   There are many great sources for philosophy papers and readings:
@@ -33,16 +31,15 @@ ago. It's just a Python scraper for [[http://plato.stanford.edu][SEP]] articles.
   accessible, in a medium that is familiar to computer scientists and
   software engineers.
   
-  Aristotl will accomplish this by exposing a [[https://en.wikipedia.org/wiki/Representational_state_transfer][REST API]] first, and
-  later by creating a web app that will provide access to all of the
-  data wrapped in an easy-to-use GUI. The API will contain endpoints
-  for every philosopher, concept, and discipline in philosophy. Each
+  Aristotl will accomplish this by exposing an API first, and later by
+  creating a web app that will provide access to all of the data
+  wrapped in an easy-to-use GUI. The API will contain endpoints for
+  every philosopher, concept, and discipline in philosophy. Each
   endpoint will provide bibliographies of references collected from
   multiple sources, full-text articles where available, and
   recommendations for similar entries (calculated by the Aristotl
-  system). This data will be persisted in a Postgres database
-  (transacted by Datomic) and supplied by scraping encyclopedias or
-  pulling from the Philpapers API.
+  system). This data will be persisted in a database and supplied by
+  scraping encyclopedias or pulling from the Philpapers API.
 
 * Contributing
    
@@ -64,8 +61,8 @@ ago. It's just a Python scraper for [[http://plato.stanford.edu][SEP]] articles.
    state-of-the-art with respect to computer science. After all, I
    should have some fun with this.
    
-   My latest idea is to use a microservices architecture and
-   distribute these services in a [[https://github.com/svanderburg/disnix][Disnix]] cluster. Each node in the
+   My latest idea is to distribute a collection of services in a
+   [[https://github.com/svanderburg/disnix][Disnix]] cluster (or perhapse just with [[https://nixos.org/nixops/][NixOps]]). Each node in the
    cluster should be easy to setup and deploy with a simple script
    (all you have to do is get the [[http://sandervanderburg.blogspot.com/2011/02/disnix-toolset-for-distributed.html][DisnixService]] installed and running
    on a machine, add it to the configuration, and run =disnix-env
@@ -73,110 +70,42 @@ ago. It's just a Python scraper for [[http://plato.stanford.edu][SEP]] articles.
    support Aristotl but may not be able to program. See for example
    [[https://github.com/kiberpipa/nix-rehash#recontain---herokuhome][nix-rehash]].
    
-   I have this down to the following services, each service
-   communicating via REST or Websockets, depending on which is more
-   appropriate:
+   I have this down to the following services:
    
-** =./db/= - Clojure and Datomic Database Service
-*** Database service
-     
-    The database should obviously be Datomic (on top of Cassandra
-    perhaps?), and a lightweight Clojure app will run an API service
-    to access the data. Routing will be handled by Pedestal (with
-    swagger), and really it should only do a few things:
-    
-    1. Receive data from the Haskell services. The data should be in
-       Pandoc native.
-    2. Serve data to the world in a variety of formats (Transit/EDN
-       first, then later JSON, XML, and HTML).
-    3. Do any necessary rate throttling, data checking, etc. There
-       shouldn't be much of this to start, however.
-     
-    For now, it would be best to just dump stuff into the database,
-    rebuilding when necessary, but in the future it would be ideal to
-    track /all/ of the changes to the database, much in the way that Git
-    tracks all changes to source code.  Besides, it would be fun to
-    write a diffing algorithm and such. Additionally, the database
-    service will act as a /machine learning/ and /analytics/ service
-    that can do all of the necessary computations for determining what
-    citations and articles are related, etc.
-  
-**** TODO Record schema
-      
-     Each record needs to have a UUID at least. The rest depends on the
-     kind of record. Thinkers will have different record fields than
-     concepts, obviously.
-      
-**** Interface
+** =./graph/= - A graph database of article/relations
 
-     I know I said I should a REST API, but with Datomic's new Pull
-     API, it might be most useful to simply expose that
-     interface. That way, people could query the database directly for
-     what they want.
+   *Status:* In progress
+
+   This uses [[https://github.com/dakrone/itsy][the itsy web spider]] to crawl the SEP, store the text
+   content into ElasticSearch and store metadata into Datomic. The
+   metadata of interest includes the references that each article 
+   makes to every *other* article, thus forming a graph of
+   philosophical relations. I will make this graph queryable via HTTP
+   by simply exposing the Datomic interface for Datalog queries.
+
+   Part of the reason for storing the full content in ElasticSearch is
+   for furthing data mining later on and improving the relationships
+   in the graph.
       
-**** TODO [#B] Learn Datomic (schemas, setup, etc)
-**** TODO [#C] Define database schema
-**** TODO [#C] Get Discovery Service data into the database
-** =./api/= - Haskell: Discovery, Parser, and Citation Service
-*** Discovery
-     
-    To "discover" new content, I'll need some kind of a crawler. To
-    start, I will simply crawl the SEP's [[http://plato.stanford.edu/contents.html][contents page]] and get the
-    information from each of those pages in the form of cleaned
-    HTML. (In the future, I can add other sources, such as the
-    PhilPapers and JSTOR APIs.) The data will then be sent to the
-    Parser (via a simple function call - no need to mess with
-    messaging or REST here) and turned into Pandoc Native.
-    
-    The crawler will not have any public interface to begin with, but
-    instead will run like a daemon.
-    
-    The plan is to:
-     
- 1. Grab the page via HTTP.
- 2. Extract the =#article= section.
- 3. Extract specific things inside =#article=, such as:
-    1. Images (store in S3)
-    2. Metadata (author, copyright, last published, etc)
- 4. Identify the core content (e.g. =#main-text= in the SEP) and send
-    that to the Parser to be transformed into Pandoc Native
- 5. Identify the bibliography (e.g. =#bibliography= in the SEP) and
-    send to the Parser to be transformed into the CSL-flavored Pandoc
-    Native
- 6. After receiving the Pandoc Native from 4 and 5, Discovery will
-    combine the content along with the metadata (3.2) and send them to
-    the Database.
-     
-**** TODO [#A] Crawl and scrape the SEP contents page
+** =./api/= - Haskell: Parser, Content, and Citation Service
+
+   *Status:* In design (also, I need to learn Haskell)
+   
 *** Parser
      
-    This must parse the structured text into [[http://johnmacfarlane.net/BayHac2014/doc/pandoc-types/Text-Pandoc-Definition.html][Pandoc Native]], and then
-    put it into the database. So basically it's just a wrapper for
-    Pandoc.
-     
-**** TODO [#C] Outline a spec for the Parser Service API
-**** TODO [#C] Begin writing the Parser Service API
+    This will parse the article source text from ElasitSearch into
+    [[http://johnmacfarlane.net/BayHac2014/doc/pandoc-types/Text-Pandoc-Definition.html][Pandoc Native]], and then deliver it via a REST-like endpoint. This
+    will allow the content to be delivered in any format that Pandoc
+    can write to, but it also allows further analysis. Pandoc Native
+    is basically an AST for formatted text, which means I can walk
+    this tree structure and look for patterns, other informal
+    references, etc. and use this to fill out the graph even more.
+
 *** Citations
      
-    Parsing citations will not be easy. I can get most of the
-    information I need from the HTML markup in the Discovery service,
-    but for the parts that I can't get, I'll need some kind of a
-    parser, or a /prover/! I could write a Haskell service that takes
-    plain-text values and checks them against a citation grammar, such
-    as the [[http://istitutocolli.org/repos/citeproc-hs/][Citation Style Language]] (pandoc works with this).
-    
-    For example,
-    
-    #+BEGIN_EXAMPLE haskell
-    citation = "Paulson, S., 2002, Introduction to Kelsen's Introduction to the Problems of Legal Theory, p. xvii, Oxford: Clarendon Press."
-    
-    data article = ["a", "an", "the", "to", "of"]
-    data pronoun = [[A..Z], [a..z]]
-    data name = [[Char], '.']
-    
-    title :: String -> Char
-    title match with title attribues -- I have no idea, it's 4am wtf
-    #+END_EXAMPLE
+    With the Parser in place, I can specifically isolate the
+    bibliographies of the articles and extract citations with the
+    [[http://istitutocolli.org/repos/citeproc-hs/][Citation Style Language]] (pandoc has [[http://hackage.haskell.org/package/pandoc-citeproc][an addon]] for this).
 
 *** Other ideas
 
