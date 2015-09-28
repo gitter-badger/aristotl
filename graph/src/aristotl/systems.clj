@@ -6,10 +6,14 @@
              [elasticsearch :refer [new-elasticsearch-db]])
             (aristotl
              [database :as db]
-             [service :refer [new-pedestal service]]
+             [service :refer [new-pedestal api-service]]
              [spider :refer [new-itsy sources]])))
 
-(defsystem dev-system
-  [:datomic (new-datomic-db db/uri)
-   :pedestal (new-pedestal service)
-   :sep-spider (new-itsy (get sources :sep))])
+(defn dev-system []
+  (component/system-map
+   :datomic (new-datomic-db db/uri)
+   ;;:pedestal (component/using (new-pedestal api-service) [:datomic])
+   :elasticsearch (new-elasticsearch-db [["localhost" 9300]] {"cluster.name" "elasticsearch"})
+   :sep-spider (component/using
+                  (new-itsy (get sources :sep))
+                  [:elasticsearch :datomic])))

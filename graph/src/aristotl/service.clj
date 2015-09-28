@@ -12,7 +12,7 @@
   HOST "0.0.0.0"
   PORT "8080")
 
-(def service
+(def api-service
   {::http/host HOST
    ::http/port (Integer/parseInt PORT)
    ::http/type :jetty
@@ -20,29 +20,19 @@
    ::http/resource-path "/public"
    ::http/routes routes})
 
-(defonce server nil)
-
-(defn start-service []
-  (db/bootstrap! db/uri)
-  (http/start server))
-
-(defn stop-service []
-  (http/stop server)
-  (alter-var-root #'server (constantly nil)))
-
-(defn restart-service []
-  (stop-service)
-  (start-service))
-
-(defrecord Pedestal [service-map]
+(defrecord Pedestal [config datomic]
   component/Lifecycle
+
   (start [component]
-    (let [server-instance start-service]
+    (let [service (http/create-server config)]
       (log/info "Starting Pedestal component")
-      (assoc component :service server-instance)))
+      ;;(db/bootstrap! db/uri)
+      (http/start service)
+      (assoc component :service service)))
+
   (stop [component]
     (log/info "Stopping Pedestal component")
-    (update-in component [:service] stop-service)))
+    (update-in component [:service] http/stop)))
 
-(defn new-pedestal [service-map]
-  (map->Pedestal service-map))
+(defn new-pedestal [config]
+  (map->Pedestal config))
