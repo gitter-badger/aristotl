@@ -13,24 +13,29 @@
 (env/def
   ES_URL "http://localhost:9200/")
 
-(defn my-handler [{:keys [url body]}]
-  (println url "has a count of" (count body)))
+(defn log-handler [{:keys [url body]}]
+  (log/info url "has a count of" (count body)))
 
-(def es-handler
-  ""
-  (make-es-handler {:es-url ES_URL
-                         :es-index "crawl"
-                         :es-type "page"
-                         :es-index-settings {:settings
-                                             {:index
-                                              {:number_of_shards 2
-                                               :number_of_replicas 0}}}
-                         :http-opts {}}))
+(defn elasticsearch-handler [es-component]
+  (make-es-handler {:es-url (:es-url es-component)}))
+
+;; TODO
+(defn datomic-handler [{:keys [url body]}]
+  nil)
+
+(defn master-handler
+  "Comp handlers for ElasticSearch and Datomic.
+   Handlers take a map with :url and :body keys"
+  [{:keys [url body] :as m}]
+  (log/debug "Handling" url)
+  (comp
+   (datomic-handler m)
+   (elasticsearch-handler m)))
 
 (def sources
   "Schema: {<3-letter name> <itsy crawl settings>}"
   {:sep {:url "http://plato.stanford.edu/contents.html"
-         :handler es-handler
+         :handler elasticsearch-handler
          :workers 5
          :url-limit -1
          :url-extractor itsy/extract-all ;; FIXME: study itsy/extract-all and make my own implementation ??
@@ -39,18 +44,16 @@
          :polite? true}})
 
 ;; An itsy component
-(defrecord Itsy [crawl-settings]
+(defrecord Itsy [crawl-settings spider elasticsearch datomic]
   component/Lifecycle
-  (start [component]
+  (start [this]
     (log/info "Starting Itsy component")
-    (let [spider (itsy/crawl crawl-settings)]
-      (assoc component :spider spider)))
-
-  (stop [component]
-    (log/info "Stopy Itsy component")
-    (itsy/stop-workers (:spider component))
-    (assoc component :spider nil)))
+    (assoc this :spider (itsy/crawl crawl-settings)))
+  (stop [this]
+    (log/info "Stopping Itsy component")
+    (itsy/stop-workers (:spider this))
+    (assoc this :spider nil)))
 
 (defn new-itsy
   [crawl-settings]
-  (itsy/crawl crawl-settings))
+  (map->Itsy {:crawl-settings crawl-settings}))
