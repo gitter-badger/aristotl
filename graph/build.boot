@@ -83,7 +83,7 @@
   (comp
    (watch :verbose true)
    (speak :theme "ordinance")
-   (system :sys #'dev-system :auto-start true :hot-reload true
+   (system :sys #'dev-system :hot-reload true
            :files ["database.clj" "routes.clj" "spider.clj" "service.clj"])
    (repl :server true)))
 

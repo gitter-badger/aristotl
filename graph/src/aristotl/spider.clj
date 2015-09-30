@@ -13,11 +13,15 @@
 (env/def
   ES_URL "http://localhost:9200/")
 
-(defn log-handler [{:keys [url body]}]
-  (log/info url "has a count of" (count body)))
+(defn log-handler [{:keys [url body] :as m}]
+  (log/info "Crawling" url))
 
-(defn elasticsearch-handler [es-component]
-  (make-es-handler {:es-url (:es-url es-component)}))
+(defn warn-handler [{:keys [url body] :as m}]
+  (if (= (count body) 0)
+    (log/warn "Itsy found no links on" url)))
+
+(def elasticsearch-handler
+  (make-es-handler {:es-url (:es-url (:elasticsearch reloaded.repl/system))}))
 
 ;; TODO
 (defn datomic-handler [{:keys [url body]}]
@@ -27,15 +31,15 @@
   "Comp handlers for ElasticSearch and Datomic.
    Handlers take a map with :url and :body keys"
   [{:keys [url body] :as m}]
-  (log/debug "Handling" url)
-  (comp
-   (datomic-handler m)
-   (elasticsearch-handler m)))
+  (do
+    (log-handler m)
+    (warn-handler m)
+    (elasticsearch-handler m)))
 
 (def sources
   "Schema: {<3-letter name> <itsy crawl settings>}"
   {:sep {:url "http://plato.stanford.edu/contents.html"
-         :handler elasticsearch-handler
+         :handler log-handler
          :workers 5
          :url-limit -1
          :url-extractor itsy/extract-all ;; FIXME: study itsy/extract-all and make my own implementation ??
@@ -44,7 +48,7 @@
          :polite? true}})
 
 ;; An itsy component
-(defrecord Itsy [crawl-settings spider elasticsearch datomic]
+(defrecord Itsy [crawl-settings elasticsearch datomic]
   component/Lifecycle
   (start [this]
     (log/info "Starting Itsy component")
