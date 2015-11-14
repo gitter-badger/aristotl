@@ -14,7 +14,7 @@
   (let [conn (d/connect uri)]
     ;; TODO:     v Create resources/<your-schema.edn> and add "<your-schema>.edn" to this vector
     (doseq [rsc [ ]]
-      (let [norms (c/load-schema-rsc rsc)]
+      (let [norms (c/read-resource rsc)]
         (c/ensure-conforms conn norms)))))
 
  (def insert-datomic

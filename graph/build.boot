@@ -1,24 +1,26 @@
 (set-env! :source-paths   #{"src" "test"}
           :resource-paths #{"resources" "config"}
           :dependencies   '[[org.clojure/clojure "1.7.0"]
-                            [org.clojure/core.typed "0.3.11"]
+                            [org.clojure/core.typed "0.3.18"]
                             [org.clojure/core.match "0.3.0-alpha4"]
                             [org.clojure/tools.logging "0.3.1"]
-                            [adzerk/boot-test "1.0.4" :scope "test"]
+                            [org.clojure/core.async "0.2.374"]
+                            [adzerk/boot-test "1.0.5" :scope "test"]
 
                             [com.stuartsierra/component "0.3.0"]
                             [org.danielsz/system "0.1.9"] ;; also provides reloaded.repl
-                            [io.pedestal/pedestal.service "0.4.0"]
-                            [io.pedestal/pedestal.jetty   "0.4.0"]
-                            
+                            [io.pedestal/pedestal.service "0.4.1"]
+                            [io.pedestal/pedestal.jetty   "0.4.1"]
+
                             [itsy "0.1.1"
                              :exclusions [org.slf4j/slf4j-log4j12]]
                             [clj-http   "2.0.0"]
                             [adzerk/env "0.2.0"]
                             [enlive     "1.1.6"]
+                            [org.onyxplatform/onyx "0.8.0"]
 
                             ;; ElasticSearch
-                            [org.elasticsearch/elasticsearch "1.6.0"
+                            [org.elasticsearch/elasticsearch "2.0.0"
                                    :exclusions [org.antlr/antlr-runtime
                                                 org.apache.lucene/lucene-analyzers-common
                                                 org.apache.lucene/lucene-grouping
@@ -35,25 +37,25 @@
                                                 org.ow2.asm/asm-commons]]
 
                             ;; Datomic
-                            [com.datomic/datomic-free "0.9.5302"
+                            [com.datomic/datomic-free "0.9.5327"
                              :exclusions [joda-time
                                           org.slf4j/slf4j-nop
                                           org.slf4j/slf4j-log4j12]]
-                            [io.rkn/conformity "0.3.5"
+                            [io.rkn/conformity "0.3.7"
                              :exclusions [com.datomic/datomic-free]]
 
                             ;; Logging
                             [ch.qos.logback/logback-classic "1.1.3"
                              :exclusions [org.slf4j/slf4j-api]]
-                            [org.slf4j/jul-to-slf4j "1.7.12"]
-                            [org.slf4j/jcl-over-slf4j "1.7.12"]
-                            [org.slf4j/log4j-over-slf4j "1.7.12"]])
+                            [org.slf4j/jul-to-slf4j "1.7.13"]
+                            [org.slf4j/jcl-over-slf4j "1.7.13"]
+                            [org.slf4j/log4j-over-slf4j "1.7.13"]])
 
 (def version "0.0.1-SNAPSHOT")
 (task-options! pom {:project 'aristotl
                     :version (str version "-standalone")
                     :description "FIXME: write description"
-                    :license {"License Name" "All Rights Reserved"}})
+                    :license {"MIT" "See LICENSE.txt"}})
 
 ;; == Cider REPL =========================================
 
@@ -91,10 +93,8 @@
 (deftask build
   "Build my project."
   []
-  (comp (aot :namespace '#{aristotl})
-        (pom)
-        (uber)
-        (jar :main 'aristotl)))
-
-
-
+  (comp
+   (aot :namespace '#{aristotl})
+   (pom)
+   (uber)
+   (jar :main 'aristotl)))
