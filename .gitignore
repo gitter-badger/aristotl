@@ -1,2 +1,4 @@
 tmp
 setenv.sh
+.nrepl-port
+itsy.log
