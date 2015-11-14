@@ -20,22 +20,6 @@
   (if (= (count body) 0)
     (log/warn "Itsy found no links on" url)))
 
-(def elasticsearch-handler
-  (make-es-handler {:es-url (:es-url (:elasticsearch reloaded.repl/system))}))
-
-;; TODO
-(defn datomic-handler [{:keys [url body]}]
-  nil)
-
-(defn master-handler
-  "Comp handlers for ElasticSearch and Datomic.
-   Handlers take a map with :url and :body keys"
-  [{:keys [url body] :as m}]
-  (do
-    (log-handler m)
-    (warn-handler m)
-    (elasticsearch-handler m)))
-
 (def sources
   "Schema: {<3-letter name> <itsy crawl settings>}"
   {:sep {:url "http://plato.stanford.edu/contents.html"
