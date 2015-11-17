@@ -7,6 +7,9 @@ An API for philosophy data.
 *Current Status:* Out of planning and in development.
 
 * Rationale
+
+  #+ATTR_HTML: title="Join the chat at https://gitter.im/bsima/aristotl"
+  [[https://gitter.im/bsima/aristotl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge][file:https://badges.gitter.im/Join%20Chat.svg]]
    
   There are many great sources for philosophy papers and readings:
   
